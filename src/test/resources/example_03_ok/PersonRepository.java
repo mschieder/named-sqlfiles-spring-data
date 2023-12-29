@@ -1,4 +1,4 @@
-package com.github.mschieder.spring.example;
+package io.github.mschieder.spring.example;
 
 import java.util.Optional;
 import org.springframework.data.domain.Page;

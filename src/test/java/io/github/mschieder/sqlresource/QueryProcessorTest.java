@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.github.mschieder.sqlresource;
+package io.github.mschieder.sqlresource;
 
 import static com.google.testing.compile.CompilationSubject.assertThat;
 import static com.google.testing.compile.JavaFileObjects.forResource;
@@ -102,8 +102,8 @@ public class QueryProcessorTest {
 
     assertThat(compilation.generatedFiles().stream().map(JavaFileObject::getName))
         .containsExactlyInAnyOrder(
-            "/CLASS_OUTPUT/com/github/mschieder/spring/example/Person.class",
-            "/CLASS_OUTPUT/com/github/mschieder/spring/example/PersonRepository.class");
+            "/CLASS_OUTPUT/io/github/mschieder/spring/example/Person.class",
+            "/CLASS_OUTPUT/io/github/mschieder/spring/example/PersonRepository.class");
   }
 
   private void assertPersonCompilationSuccess() {
@@ -111,8 +111,8 @@ public class QueryProcessorTest {
 
     assertThat(compilation.generatedFiles().stream().map(JavaFileObject::getName))
         .containsExactlyInAnyOrder(
-            "/CLASS_OUTPUT/com/github/mschieder/spring/example/Person.class",
-            "/CLASS_OUTPUT/com/github/mschieder/spring/example/PersonRepository.class",
+            "/CLASS_OUTPUT/io/github/mschieder/spring/example/Person.class",
+            "/CLASS_OUTPUT/io/github/mschieder/spring/example/PersonRepository.class",
             "/CLASS_OUTPUT/META-INF/jpa-named-queries.properties");
 
     assertThat(compilation)

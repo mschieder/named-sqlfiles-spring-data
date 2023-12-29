@@ -11,7 +11,7 @@ code style.
 1. Add the Maven dependency:
    ```xml
    <dependency>
-       <groupId>com.github.mschieder</groupId>
+       <groupId>io.github.mschieder</groupId>
        <artifactId>spring-data-jpa-namedsqlfiles</artifactId>
        <version>1.0.0-SNAPSHOT</version>
    </dependency>

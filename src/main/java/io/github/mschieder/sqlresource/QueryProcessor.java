@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.github.mschieder.sqlresource;
+package io.github.mschieder.sqlresource;
 
 import com.google.auto.service.AutoService;
 import java.io.IOException;
