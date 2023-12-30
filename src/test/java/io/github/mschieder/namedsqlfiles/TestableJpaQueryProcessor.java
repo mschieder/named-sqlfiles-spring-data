@@ -24,18 +24,18 @@ import javax.annotation.processing.SupportedAnnotationTypes;
 import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
 
-@SupportedAnnotationTypes(QueryProcessor.QUERY_ANNOTATION_TYPE)
+@SupportedAnnotationTypes(JpaQueryProcessor.JPA_QUERY_ANNOTATION_TYPE)
 @SupportedSourceVersion(SourceVersion.RELEASE_17)
-public class TestableQueryProcessor extends QueryProcessor {
+public class TestableJpaQueryProcessor extends JpaQueryProcessor {
 
   private final String prefixPath;
 
-  public TestableQueryProcessor(String prefixPath) {
+  public TestableJpaQueryProcessor(String prefixPath) {
     this.prefixPath = prefixPath;
   }
 
   @Override
-  protected ResourceLocator resourceLocator() {
+  ResourceLocator resourceLocator() {
     return new ResourceLocator(null) {
 
       @Override

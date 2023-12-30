@@ -30,8 +30,10 @@ import javax.tools.StandardLocation;
 /**
  * Locate and read resources with {@link ProcessingEnvironment}'s {@link
  * javax.annotation.processing.Filer}.
+ *
+ * @author Michael Schieder
  */
-public class ResourceLocator {
+class ResourceLocator {
 
   private final ProcessingEnvironment processingEnv;
 

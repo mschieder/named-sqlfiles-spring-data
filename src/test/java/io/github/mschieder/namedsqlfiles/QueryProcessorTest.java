@@ -148,7 +148,7 @@ class QueryProcessorTest {
   private void whenCompilePersonExample(String exampleName) {
     this.compilation =
         Compiler.javac()
-            .withProcessors(new TestableQueryProcessor(exampleName))
+            .withProcessors(new TestableJpaQueryProcessor(exampleName))
             .compile(
                 forResource(exampleName + "/Person.java"),
                 forResource(exampleName + "/PersonRepository.java"));
