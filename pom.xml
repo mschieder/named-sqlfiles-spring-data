@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.github.mschieder</groupId>
-    <artifactId>spring-data-jpa-namedsqlfiles</artifactId>
+    <artifactId>named-sqlfiles-spring-data</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
@@ -12,7 +12,7 @@
         annotation parameters "name" and "countName" and converts their file content to standard named properties file
         'META-INF/jpa-named-queries.properties'.
     </description>
-    <url>https://github.com/mschieder/spring-data-jpa-namedsqlfiles/</url>
+    <url>https://github.com/mschieder/named-sqlfiles-spring-data/</url>
 
     <licenses>
         <license>

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.github.mschieder.sqlresource;
+package io.github.mschieder.namedsqlfiles;
 
 import static com.google.testing.compile.CompilationSubject.assertThat;
 import static com.google.testing.compile.JavaFileObjects.forResource;
@@ -33,7 +33,7 @@ import org.assertj.core.api.MapAssert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class QueryProcessorTest {
+class QueryProcessorTest {
 
   private Compilation compilation;
 

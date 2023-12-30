@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.github.mschieder.sqlresource;
+package io.github.mschieder.namedsqlfiles;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

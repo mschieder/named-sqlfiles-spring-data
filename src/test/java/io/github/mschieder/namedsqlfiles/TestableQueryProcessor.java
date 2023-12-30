@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.github.mschieder.sqlresource;
+package io.github.mschieder.namedsqlfiles;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -40,27 +40,27 @@ public class TestableQueryProcessor extends QueryProcessor {
 
       @Override
       boolean exists(String resourceName) {
-        return findResource2(resourceName).isPresent();
+        return findClasspathResource(resourceName).isPresent();
       }
 
       @Override
       String contentAsString(String resource) throws IOException {
-        InputStream inputStream =
-            findResource2(resource).orElseThrow(() -> new FileNotFoundException(resource));
-
-        try (var is = inputStream) {
+        try (var is =
+            findClasspathResource(resource)
+                .orElseThrow(() -> new FileNotFoundException(resource))) {
           return resourceStreamToString(is);
         }
       }
 
       @Override
       InputStream resourceInputstream(String resource) throws IOException {
-        return findResource2(resource).orElseThrow(() -> new FileNotFoundException(resource));
+        return findClasspathResource(resource)
+            .orElseThrow(() -> new FileNotFoundException(resource));
       }
 
-      protected Optional<InputStream> findResource2(String resourceName) {
+      private Optional<InputStream> findClasspathResource(String resourceName) {
         var inputStream =
-            this.getClass().getResourceAsStream("/" + prefixPath + "/" + "" + resourceName);
+            this.getClass().getResourceAsStream("/" + prefixPath + "/" + resourceName);
 
         return Optional.ofNullable(inputStream);
       }

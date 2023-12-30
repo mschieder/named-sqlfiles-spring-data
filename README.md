@@ -1,4 +1,4 @@
-# spring-data-jpa-namedsqlfiles
+# named-sqlfiles-spring-data
 
 An annotation processor, that processes references to SQL resource files in Spring Data's Query
 annotation parameters "name" and "countName" and converts their file content to standard named properties file
@@ -12,8 +12,9 @@ code style.
    ```xml
    <dependency>
        <groupId>io.github.mschieder</groupId>
-       <artifactId>spring-data-jpa-namedsqlfiles</artifactId>
+       <artifactId>named-sqlfiles-spring-data</artifactId>
        <version>1.0.0-SNAPSHOT</version>
+       <scope>provided</scope>
    </dependency>
    ```
 
@@ -52,6 +53,6 @@ code style.
 
 ## License
 
-spring-data-jpa-namedsqlfiles is released under version 2.0 of
+named-sqlfiles-spring-data is released under version 2.0 of
 the [Apache License](https://www.apache.org/licenses/LICENSE-2.0).
 
