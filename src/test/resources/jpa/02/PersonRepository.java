@@ -1,4 +1,4 @@
-package io.github.mschieder.spring.example;
+package io.github.mschieder.namedsqlfiles;
 
 import java.util.Optional;
 import org.springframework.data.domain.Page;

@@ -20,13 +20,13 @@ import javax.annotation.processing.SupportedAnnotationTypes;
 import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
 
-@SupportedAnnotationTypes(JpaQueryProcessor.JPA_QUERY_ANNOTATION_TYPE)
+@SupportedAnnotationTypes(JdbcQueryProcessor.JDBC_QUERY_ANNOTATION_TYPE)
 @SupportedSourceVersion(SourceVersion.RELEASE_17)
-public class TestableJpaQueryProcessor extends JpaQueryProcessor {
+public class TestableJdbcQueryProcessor extends JdbcQueryProcessor {
 
   private final TestEnvironmentResourceLocator resourceLocator;
 
-  public TestableJpaQueryProcessor(String prefixPath) {
+  public TestableJdbcQueryProcessor(String prefixPath) {
     this.resourceLocator = new TestEnvironmentResourceLocator(prefixPath);
   }
 

@@ -1,4 +1,4 @@
-package io.github.mschieder.spring.example;
+package io.github.mschieder.namedsqlfiles;
 
 import java.util.Optional;
 import org.springframework.data.domain.Page;
@@ -8,9 +8,9 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface PersonRepository extends JpaRepository<Person, Long> {
 
-    @Query(name = "sql/person/getByLastname.sql", nativeQuery = true)
+    @Query(name = "Person.findByLastname", nativeQuery = true)
     Optional<Person> findByLastname(String name);
 
-    @Query(countName = "sql/person/count.sql", name = "sql/person/all.sql", nativeQuery = true)
+    @Query(value = "select from Person")
     Page<Person> all(Pageable pageable);
 }

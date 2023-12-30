@@ -40,7 +40,7 @@
         <junit-jupiter.version>5.10.1</junit-jupiter.version>
         <assertj.version>3.24.2</assertj.version>
         <compile-testing.version>0.21.0</compile-testing.version>
-        <spring-data-jpa.version>3.2.0</spring-data-jpa.version>
+        <spring-data.version>3.2.0</spring-data.version>
 
         <!-- plugin versions -->
         <maven-compiler-plugin.version>3.12.1</maven-compiler-plugin.version>
@@ -83,7 +83,13 @@
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-jpa</artifactId>
-            <version>3.2.0</version>
+            <version>${spring-data.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jdbc</artifactId>
+            <version>${spring-data.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
