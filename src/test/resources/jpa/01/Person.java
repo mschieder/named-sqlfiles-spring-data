@@ -1,4 +1,4 @@
-package io.github.mschieder.spring.example;
+package io.github.mschieder.namedsqlfiles;
 
 
 public class Person {

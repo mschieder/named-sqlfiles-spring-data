@@ -8,9 +8,10 @@
     <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <description>An annotation processor, that processes references to SQL resource files in Spring Data's Query
-        annotation parameters "name" and "countName" and converts their file content to standard named properties file
-        'META-INF/jpa-named-queries.properties'.
+    <description>Provides annotation processors, that process references to SQL resource files in Spring Data JDBC/JPA's
+        Query annotation parameters "name" (Spring Data JPA: + "countName") and converts their file content to standard
+        named properties file 'META-INF/jdbc-named-queries.properties' (Spring Data JDBC) or
+        'META-INF/jpa-named-queries.properties' (Spring Data JPA).
     </description>
     <url>https://github.com/mschieder/named-sqlfiles-spring-data/</url>
 
@@ -39,7 +40,7 @@
         <junit-jupiter.version>5.10.1</junit-jupiter.version>
         <assertj.version>3.24.2</assertj.version>
         <compile-testing.version>0.21.0</compile-testing.version>
-        <spring-data-jpa.version>3.2.0</spring-data-jpa.version>
+        <spring-data.version>3.2.0</spring-data.version>
 
         <!-- plugin versions -->
         <maven-compiler-plugin.version>3.12.1</maven-compiler-plugin.version>
@@ -82,7 +83,13 @@
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-jpa</artifactId>
-            <version>3.2.0</version>
+            <version>${spring-data.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jdbc</artifactId>
+            <version>${spring-data.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

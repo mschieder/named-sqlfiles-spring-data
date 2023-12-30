@@ -16,99 +16,68 @@
 
 package io.github.mschieder.namedsqlfiles;
 
-import com.google.auto.service.AutoService;
 import java.io.IOException;
-import java.io.OutputStream;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.Set;
 import javax.annotation.processing.AbstractProcessor;
-import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
-import javax.annotation.processing.SupportedAnnotationTypes;
-import javax.annotation.processing.SupportedSourceVersion;
-import javax.lang.model.SourceVersion;
-import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
 import javax.tools.Diagnostic;
-import javax.tools.StandardLocation;
 
 /**
- * This annotation processor converts sql references to classpath resources in Spring Data's Query
- * annotation parameters "name" and "countName" to standard named properties file
- * 'META-INF/jpa-named-queries.properties'.
+ * Common annotation processing functionality for @{@link JdbcQueryProcessor} and {@link
+ * JpaQueryProcessor}.
  *
  * @author Michael Schieder
  */
-@SupportedAnnotationTypes(QueryProcessor.QUERY_ANNOTATION_TYPE)
-@SupportedSourceVersion(SourceVersion.RELEASE_17)
-@AutoService(Processor.class)
-public class QueryProcessor extends AbstractProcessor {
+public abstract class QueryProcessor extends AbstractProcessor {
 
-  public static final String QUERY_ANNOTATION_TYPE =
-      "org.springframework.data.jpa.repository.Query";
-  private static final String JPA_NAMED_QUERIES_PROPERTIES =
-      "META-INF/jpa-named-queries.properties";
+  private final String annotationType;
+  private final String propertiesFilename;
+  private final List<String> queryParameterNames;
+  private final Properties properties;
 
-  protected ResourceLocator resourceLocator() {
+  QueryProcessor(
+      String annotationType, String propertiesFilename, List<String> queryParameterNames) {
+    this.annotationType = annotationType;
+    this.propertiesFilename = propertiesFilename;
+    this.queryParameterNames = Collections.unmodifiableList(queryParameterNames);
+    this.properties = new Properties();
+  }
+
+  ResourceLocator resourceLocator() {
     return new ResourceLocator(processingEnv);
+  }
+
+  private PropertiesSupport propertiesSupport() {
+    return new PropertiesSupport(resourceLocator(), propertiesFilename, processingEnv);
   }
 
   @Override
   public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
     if (!roundEnv.processingOver()) {
-      Properties properties = createOrLoadProperties();
-
       annotations.stream()
           .flatMap(next -> roundEnv.getElementsAnnotatedWith(next).stream())
-          .forEach(annotatedElement -> processNamedQueryProperties(annotatedElement, properties));
+          .forEach(this::processNamedQueryParameters);
 
-      writePropertiesFile(properties);
+      propertiesSupport().storePropertiesFile(properties);
     }
     return true;
   }
 
-  private Properties createOrLoadProperties() {
-    Properties properties = new Properties();
-    try {
-      if (resourceLocator().exists(JPA_NAMED_QUERIES_PROPERTIES)) {
-        properties.load(resourceLocator().resourceInputstream(JPA_NAMED_QUERIES_PROPERTIES));
-      }
-    } catch (IOException e) {
-      processingEnv
-          .getMessager()
-          .printMessage(
-              Diagnostic.Kind.ERROR,
-              "error loading properties '" + JPA_NAMED_QUERIES_PROPERTIES + "'.");
-    }
-    return properties;
+  private void processNamedQueryParameters(Element element) {
+    SimpleAnnotation.findAnnotation(annotationType, element).stream()
+        .flatMap(
+            queryAnnotation ->
+                queryAnnotation.getParameterMap(queryParameterNames).values().stream())
+        .forEach(value -> processQueryParameter(value, properties, element));
   }
 
-  private void processNamedQueryProperties(Element element, Properties properties) {
-    findQueryAnnotation(element)
-        .ifPresent(
-            query -> {
-              addProperty(findQueryElement("name", query), properties, element);
-              addProperty(findQueryElement("countName", query), properties, element);
-            });
-  }
-
-  private Optional<? extends AnnotationMirror> findQueryAnnotation(Element element) {
-    return element.getAnnotationMirrors().stream()
-        .filter(m -> QUERY_ANNOTATION_TYPE.equals(m.getAnnotationType().toString()))
-        .findFirst();
-  }
-
-  private String findQueryElement(String elementName, AnnotationMirror queryAnnotation) {
-    return queryAnnotation.getElementValues().entrySet().stream()
-        .filter(entry -> elementName.equals(entry.getKey().getSimpleName().toString()))
-        .map(entry -> entry.getValue().getValue().toString())
-        .findFirst()
-        .orElse("");
-  }
-
-  private void addProperty(String name, Properties properties, Element element) {
+  private void processQueryParameter(String name, Properties properties, Element element) {
     getContentFromResource(name, element).ifPresent(sql -> properties.put(name, sql));
   }
 
@@ -138,27 +107,5 @@ public class QueryProcessor extends AbstractProcessor {
       }
     }
     return Optional.empty();
-  }
-
-  private void writePropertiesFile(Properties properties) {
-    if (!properties.isEmpty()) {
-      try (OutputStream outputStream = createPropertiesFile()) {
-        properties.store(outputStream, "generated by " + this.getClass().getSimpleName());
-      } catch (IOException e) {
-        processingEnv
-            .getMessager()
-            .printMessage(
-                Diagnostic.Kind.ERROR,
-                "unable to create file '" + JPA_NAMED_QUERIES_PROPERTIES + "' not found.");
-      }
-    }
-  }
-
-  private OutputStream createPropertiesFile() throws IOException {
-    var file =
-        processingEnv
-            .getFiler()
-            .createResource(StandardLocation.CLASS_OUTPUT, "", JPA_NAMED_QUERIES_PROPERTIES);
-    return file.openOutputStream();
   }
 }
